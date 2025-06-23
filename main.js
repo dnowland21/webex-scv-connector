@@ -1,8 +1,9 @@
-import { CallingClient } from '@webex/calling';
+import WebexCalling from '@webex/calling';
 
 let line, call;
 
 async function initializeWebexCalling() {
+  const { CallingClient } = WebexCalling; // Destructure from default import
   const callingClient = new CallingClient();
 
   try {
@@ -46,25 +47,9 @@ window.endCall = async function () {
 };
 
 window.addEventListener('message', async (event) => {
-  const { type, payload } = event.data || {};
+  const { type } = event.data || {};
 
   if (type === 'init') {
-    console.log('📡 Salesforce initialized connector:', payload);
-    parent.postMessage({ type: 'init_response', payload: { status: 'success' } }, '*');
-  }
-
-  if (type === 'makeCall' && payload?.phoneNumber) {
-    window.startCall(payload.phoneNumber);
-  }
-
-  if (type === 'endCall') {
-    window.endCall();
+    initializeWebexCalling();
   }
 });
-
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('startCallBtn')?.addEventListener('click', window.startCall);
-  document.getElementById('endCallBtn')?.addEventListener('click', window.endCall);
-});
-
-initializeWebexCalling();
