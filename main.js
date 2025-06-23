@@ -3,11 +3,10 @@ import WebexCalling from '@webex/calling';
 let line, call;
 
 async function initializeWebexCalling() {
-  const callingClient = new WebexCalling();
+  const callingClient = new WebexCalling(); // ✅ correct usage
 
   try {
     await callingClient.initialize();
-
     line = Object.values(callingClient.getLines())[0];
 
     line.on('registered', (info) => {
@@ -21,6 +20,7 @@ async function initializeWebexCalling() {
   }
 }
 
+// Listen for messages from Salesforce
 window.addEventListener('message', async (event) => {
   const { type, payload } = event.data || {};
 
