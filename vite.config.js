@@ -18,15 +18,14 @@ export default defineConfig({
         '@webex/plugin-logger',
         '@webex/plugin-metrics',
         '@webex/plugin-phone',
-        '@webex/plugin-logger',
-        '@webex/web-calling-sdk', // in case
+        '@webex/web-calling-sdk'
       ]
     }
   },
   resolve: {
     alias: {
       buffer: 'buffer',
-      process: 'process/browser',
+      process: 'process', // ✅ FIXED: points to the npm package, not a file path
       '@': path.resolve(__dirname, './src')
     }
   },
@@ -44,7 +43,7 @@ export default defineConfig({
   plugins: [
     inject({
       Buffer: ['buffer', 'Buffer'],
-      process: 'process/browser',
+      process: 'process',
       global: ['globalThis', 'global']
     })
   ]
