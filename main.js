@@ -1,26 +1,52 @@
-import * as WebexCallingModule from '@webex/calling';
-const WebexCalling = WebexCallingModule?.default || WebexCallingModule?.CallingClient;
+import WebexCalling from '@webex/calling';
 
 let line, call;
 
 async function initializeWebexCalling() {
-  const callingClient = new WebexCalling(); // ✅ correct instantiation
+  const callingClient = new WebexCalling();
 
   try {
     await callingClient.initialize();
-    line = Object.values(callingClient.getLines())[0];
 
+    line = Object.values(callingClient.getLines())[0];
     line.on('registered', (info) => {
       console.log('✅ Line registered:', info);
     });
 
-    line.register();
-    console.log('🚀 Webex Calling initialized.');
+    await line.register();
+    console.log('🚀 Webex Calling initialized');
   } catch (error) {
     console.error('❌ Initialization failed:', error);
   }
 }
 
+// Expose functions globally for Salesforce context
+window.startCall = async function () {
+  if (!line) {
+    console.warn('Line not initialized yet');
+    return;
+  }
+
+  try {
+    const number = prompt('Enter number to dial:');
+    if (number) {
+      call = await line.dial(number);
+      console.log('📞 Call started');
+    }
+  } catch (error) {
+    console.error('❌ Call failed:', error);
+  }
+};
+
+window.endCall = async function () {
+  if (call) {
+    await call.hangup();
+    console.log('🔚 Call ended');
+    call = null;
+  }
+};
+
+// Handle Salesforce message integration
 window.addEventListener('message', async (event) => {
   const { type, payload } = event.data || {};
 
@@ -29,19 +55,18 @@ window.addEventListener('message', async (event) => {
     parent.postMessage({ type: 'init_response', payload: { status: 'success' } }, '*');
   }
 
-  if (type === 'makeCall') {
-    const { phoneNumber } = payload;
-    try {
-      call = await line.dial(phoneNumber);
-    } catch (err) {
-      console.error('Dial failed:', err);
-    }
+  if (type === 'makeCall' && payload?.phoneNumber) {
+    window.startCall(payload.phoneNumber);
   }
 
-  if (type === 'endCall' && call) {
-    await call.hangup();
-    call = null;
+  if (type === 'endCall') {
+    window.endCall();
   }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('startCallBtn')?.addEventListener('click', window.startCall);
+  document.getElementById('endCallBtn')?.addEventListener('click', window.endCall);
 });
 
 initializeWebexCalling();

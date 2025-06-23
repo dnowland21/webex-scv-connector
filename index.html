@@ -1,27 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>WyaLink Webex Connector</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style.css" />
-</head>
-<body>
-  <div id="app">
-    <div class="card">
-      <img src="/logo.svg" alt="WyaLink Logo" class="logo" />
-      <h1>Webex Calling Connector</h1>
-      <p id="status">Waiting for Salesforce to initialize…</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WyaLink Webex Connector</title>
+  </head>
+  <body>
+    <div class="app-wrapper">
+      <button id="startCallBtn">Start Call</button>
+      <button id="endCallBtn">End Call</button>
     </div>
-  </div>
-  <script type="module" src="/main.js"></script><!-- ❌ Don't do this -->
-<button onclick="startCall()">Call</button>
 
-<!-- ✅ Do this -->
-<button id="startCallBtn">Call</button>
-<script>
-  document.getElementById('startCallBtn').addEventListener('click', startCall);
-</script>
-</body>
+    <script type="module" src="/main.js"></script>
+  </body>
 </html>
