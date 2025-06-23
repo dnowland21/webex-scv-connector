@@ -9,6 +9,8 @@ export default defineConfig({
     sourcemap: true,
     rollupOptions: {
       external: [
+       'xstate', // ✅ add this
+        'platform',
         '@webex/internal-plugin-metrics',
         '@webex/internal-plugin-conversation',
         '@webex/internal-plugin-user',
@@ -18,8 +20,7 @@ export default defineConfig({
         '@webex/plugin-logger',
         '@webex/plugin-metrics',
         '@webex/plugin-phone',
-        '@webex/web-calling-sdk',
-        'platform', // ✅ Prevents Rollup from bundling problematic platform.js
+        '@webex/web-calling-sdk'
       ]
     }
   },
