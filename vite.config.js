@@ -18,25 +18,27 @@ export default defineConfig({
         '@webex/plugin-logger',
         '@webex/plugin-metrics',
         '@webex/plugin-phone',
-        '@webex/web-calling-sdk'
+        '@webex/web-calling-sdk',
+        'platform', // ✅ Prevents Rollup from bundling problematic platform.js
       ]
     }
   },
   resolve: {
     alias: {
       buffer: 'buffer',
-      process: 'process', // ✅ FIXED: points to the npm package, not a file path
-      '@': path.resolve(__dirname, './src')
+      process: 'process',
+      '@': path.resolve(__dirname, './src'),
     }
   },
   define: {
-    global: 'globalThis'
+    global: 'globalThis', // ✅ ensures compatibility for dependencies using `global`
+    globalThis: 'globalThis',
   },
   optimizeDeps: {
     include: ['buffer', 'process'],
     esbuildOptions: {
       define: {
-        global: 'globalThis'
+        global: 'globalThis',
       }
     }
   },
@@ -44,7 +46,7 @@ export default defineConfig({
     inject({
       Buffer: ['buffer', 'Buffer'],
       process: 'process',
-      global: ['globalThis', 'global']
+      global: ['globalThis', 'global'],
     })
   ]
 });
