@@ -1,9 +1,9 @@
-import WebexCalling from '@webex/calling';
+import { CallingClient } from '@webex/calling';
 
 let line, call;
 
 async function initializeWebexCalling() {
-  const callingClient = new WebexCalling();
+  const callingClient = new CallingClient();
 
   try {
     await callingClient.initialize();
@@ -20,7 +20,6 @@ async function initializeWebexCalling() {
   }
 }
 
-// Expose functions globally for Salesforce context
 window.startCall = async function () {
   if (!line) {
     console.warn('Line not initialized yet');
@@ -46,7 +45,6 @@ window.endCall = async function () {
   }
 };
 
-// Handle Salesforce message integration
 window.addEventListener('message', async (event) => {
   const { type, payload } = event.data || {};
 
