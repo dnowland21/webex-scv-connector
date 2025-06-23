@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>WyaLink Webex Connector</title>
-  </head>
-  <body>
-    <div class="app-wrapper">
-      <button id="startCallBtn">Start Call</button>
-      <button id="endCallBtn">End Call</button>
-    </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WyaLink Webex Connector</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div id="app" class="container">
+    <img src="/assets/logo.svg" alt="WyaLink Logo" class="logo" />
+    <h1>Service Cloud Voice</h1>
+    <p id="status">Initializing...</p>
+    <button id="start-call" disabled>Start Call</button>
+  </div>
 
-    <script type="module" src="/main.js"></script>
-  </body>
+  <script type="module" src="/main.js"></script>
+</body>
 </html>

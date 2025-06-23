@@ -1,25 +1,15 @@
 {
   "name": "webex-scv-connector",
   "version": "1.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@webex/calling": "^3.8.0",
-    "assert": "^2.1.0",
-    "crypto-browserify": "^3.12.1",
-    "jsonwebtoken": "^9.0.2",
-    "stream-browserify": "^3.0.0",
-    "util": "^0.12.5"
+    "@webex/calling": "^2.21.0"
   },
   "devDependencies": {
-    "@rollup/plugin-inject": "^5.0.5",
-    "buffer": "^6.0.3",
-    "inherits": "^2.0.4",
-    "process": "^0.11.10",
     "vite": "^6.3.5"
   }
 }

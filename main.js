@@ -1,54 +1,29 @@
-// File: main.js
-import { CallingClient } from '@webex/calling';
+import calling from '@webex/calling';
 
-let line, call;
+let call, line;
 
-async function initializeWebexCalling() {
-  const callingClient = new CallingClient();
-
-  try {
-    await callingClient.initialize();
-    line = Object.values(callingClient.getLines())[0];
-
-    line.on('registered', (info) => {
-      console.log('✅ Line registered:', info);
-    });
-
-    await line.register();
-    console.log('🚀 Webex Calling initialized');
-  } catch (error) {
-    console.error('❌ Initialization failed:', error);
+// Initialize the Webex Calling client
+const callingClient = await calling.init({
+  auth: {
+    accessToken: '54e9fc2e8f2afc055fcaeeb14e5a4ff971aeb8b3a83da7c514f9e659121fa272' // Replace with your actual token or dynamic injection
   }
-}
+});
 
-window.startCall = async function () {
-  if (!line) {
-    console.warn('Line not initialized');
-    return;
-  }
+line = Object.values(callingClient.getLines())[0];
 
-  const number = prompt('📞 Enter number to call:');
-  if (number) {
-    try {
-      call = await line.dial(number);
-      console.log('📞 Call started to', number);
-    } catch (error) {
-      console.error('❌ Call failed:', error);
-    }
-  }
-};
+line.on('registered', (info) => {
+  document.getElementById('status').textContent = 'Registered with Webex';
+  document.getElementById('start-call').disabled = false;
+  console.log('Line info:', info);
+});
 
-window.endCall = async function () {
-  if (call) {
-    await call.hangup();
-    console.log('📴 Call ended');
-    call = null;
-  }
-};
+line.on('unregistered', () => {
+  document.getElementById('status').textContent = 'Unregistered';
+});
 
-window.addEventListener('message', (event) => {
-  const { type } = event.data || {};
-  if (type === 'init') {
-    initializeWebexCalling();
-  }
+line.register();
+
+document.getElementById('start-call').addEventListener('click', () => {
+  call = line.dial('+15555555555'); // Example number
+  document.getElementById('status').textContent = 'Calling...';
 });
