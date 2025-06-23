@@ -8,7 +8,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@webex/calling": "latest"
+    "@webex/calling": "latest",
+    "util": "^0.12.5"
   },
   "devDependencies": {
     "vite": "^5.0.0"
