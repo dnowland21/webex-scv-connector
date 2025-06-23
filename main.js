@@ -1,4 +1,5 @@
-import WebexCalling from '@webex/calling'; // ✅ default import
+import * as WebexCallingModule from '@webex/calling';
+const WebexCalling = WebexCallingModule?.default || WebexCallingModule?.CallingClient;
 
 let line, call;
 
