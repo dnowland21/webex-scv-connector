@@ -1,9 +1,9 @@
-import WebexCalling from '@webex/calling';
+import WebexCalling from '@webex/calling'; // ✅ default import
 
 let line, call;
 
 async function initializeWebexCalling() {
-  const callingClient = new WebexCalling(); // ✅ correct usage
+  const callingClient = new WebexCalling(); // ✅ correct instantiation
 
   try {
     await callingClient.initialize();
@@ -20,7 +20,6 @@ async function initializeWebexCalling() {
   }
 }
 
-// Listen for messages from Salesforce
 window.addEventListener('message', async (event) => {
   const { type, payload } = event.data || {};
 
