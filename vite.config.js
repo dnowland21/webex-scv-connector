@@ -1,15 +1,12 @@
 import { defineConfig } from 'vite';
-import inject from '@rollup/plugin-inject';
-import path from 'path';
 
 export default defineConfig({
-  base: './',
   build: {
     outDir: 'dist',
     sourcemap: true,
     rollupOptions: {
       external: [
-       'xstate', // ✅ add this
+        'xstate',
         'platform',
         '@webex/internal-plugin-metrics',
         '@webex/internal-plugin-conversation',
@@ -20,34 +17,22 @@ export default defineConfig({
         '@webex/plugin-logger',
         '@webex/plugin-metrics',
         '@webex/plugin-phone',
-        '@webex/web-calling-sdk'
+        '@webex/web-calling-sdk',
+        '@webex/web-media-effects' // ✅ NEW LINE
       ]
     }
   },
+  define: {
+    global: 'globalThis'
+  },
   resolve: {
     alias: {
-      buffer: 'buffer',
-      process: 'process',
-      '@': path.resolve(__dirname, './src'),
+      stream: 'stream-browserify',
+      buffer: 'buffer/',
+      process: 'process/browser'
     }
-  },
-  define: {
-    global: 'globalThis', // ✅ ensures compatibility for dependencies using `global`
-    globalThis: 'globalThis',
   },
   optimizeDeps: {
-    include: ['buffer', 'process'],
-    esbuildOptions: {
-      define: {
-        global: 'globalThis',
-      }
-    }
-  },
-  plugins: [
-    inject({
-      Buffer: ['buffer', 'Buffer'],
-      process: 'process',
-      global: ['globalThis', 'global'],
-    })
-  ]
+    include: ['buffer', 'process']
+  }
 });
